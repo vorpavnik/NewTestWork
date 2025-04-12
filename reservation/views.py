@@ -10,10 +10,13 @@ from reservation.serializers import TablesSerializer, ReservationSerializer
 
 
 class TablesAPIView(APIView):
+    """APIView для столиков"""
 
     serializer = TablesSerializer
 
     def get(self, request):
+        """Get с фильтрацией путем применения query-параметра
+        status"""
         filter_busy = request.query_params.get('status', None)
         table_id = request.query_params.get('id')  # Получаем id из query parameters
 
@@ -81,7 +84,6 @@ class ReservationAPIView(APIView):
         if ser.is_valid():
             # Получаем reservation_time из validated_data
             reservation_time = ser.validated_data['reservation_time']
-
             # Сделаем datetime aware, если он naive
             if timezone.is_naive(reservation_time):
                 reservation_time = timezone.make_aware(reservation_time,

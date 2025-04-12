@@ -7,5 +7,5 @@ app = Celery('NewTestWork')
 app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
-from .celery_schedule import CELERYBEAT_SCHEDULE  # Импортируйте расписание
-app.conf.beat_schedule = CELERYBEAT_SCHEDULE  # Установите расписание
+from .celery_schedule import CELERYBEAT_SCHEDULE
+app.conf.beat_schedule = CELERYBEAT_SCHEDULE

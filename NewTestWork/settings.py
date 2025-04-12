@@ -126,7 +126,7 @@ CELERY_TIMEZONE = 'Europe/Moscow'
 CELERY_TASK_ALWAYS_EAGER = False
 # CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
 # CELERY_BEAT_SCHEDULER_ARGUMENTS = {
-#     'model_timezone': 'UTC'  # Или ваша временная зона
+#     'model_timezone': 'UTC'
 # }
 # CELERY_BEAT_PERSISTENT_DATABASE_ALIAS = 'postgres'
 

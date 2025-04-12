@@ -49,11 +49,11 @@ def update_tables_busyness_task():
 @shared_task
 def delete_old_reservations_task():
     """
-    Удаляет записи бронирований старше 3 месяцев из БД.
+    Удаляет записи бронирований старше 3 месяцев из БД. Оптимизация занимаемого места на сервере.
     """
     logging.info('Запущено удаление старых бронирований из БД')
     now = timezone.localtime(timezone.now())
-    cutoff_date = now - datetime.timedelta(days=90)  # 3 месяца = 90 дней
+    cutoff_date = now - datetime.timedelta(days=90)
 
     # Найти бронирования, у которых reservation_time меньше или равно cutoff_date
     old_reservations = Reservation.objects.filter(reservation_time__lte=cutoff_date)
