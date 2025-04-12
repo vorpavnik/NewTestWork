@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-99g9@$_8jt&wystd)d_!bgpnwx-&wm*vhs=i1-dbv*1uj*!s-&'
+SECRET_KEY = 'django-insecure-zff)xnzpm5&6rucxmp8scrkcgixouv4+!6@ho&_^7e(84%!)6%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 'django_celery_beat',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'reservation',
 ]
 
 MIDDLEWARE = [
@@ -69,17 +73,30 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'NewTestWork.wsgi.application'
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+
+    ]
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DB_NAME', 'postgres'),
+        'USER': os.environ.get('DB_USER', 'postgres'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', '0000'),
+        'HOST': os.environ.get('DB_HOST', 'db'),  # Важно: используем переменную окружения
+        'PORT': os.environ.get('DB_PORT', 5432),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -99,13 +116,26 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Celery settings
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'redis://localhost:6379/0')  # URL вашего брокера сообщений (Redis)
+CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND', 'redis://localhost:6379/0')  # URL для хранения результатов задач
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Europe/Moscow'
+CELERY_TASK_ALWAYS_EAGER = False
+# CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
+# CELERY_BEAT_SCHEDULER_ARGUMENTS = {
+#     'model_timezone': 'UTC'  # Или ваша временная зона
+# }
+# CELERY_BEAT_PERSISTENT_DATABASE_ALIAS = 'postgres'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
