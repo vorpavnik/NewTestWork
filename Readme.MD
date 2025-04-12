@@ -32,8 +32,8 @@ Before you begin, ensure you have the following installed:
 1.  **Clone the repository:**
 
     ```bash
-    git clone <your_repository_url>
-    cd <your_project_directory>
+    git clone https://github.com/vorpavnik/NewTestWork
+    cd NewTestWork
     ```
 
 2.  **Build and run the containers:**
