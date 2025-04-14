@@ -82,6 +82,12 @@ class ReservationAPIView(APIView):
     def post(self, request):
         ser = self.serializer(data=request.data)
         if ser.is_valid():
+            table_id = ser.validated_data['table_id']
+            if table_id.busyness:  # Если busyness=True, столик занят
+                return Response(
+                    {"error": "Этот столик уже занят. Пожалуйста, выберите другой."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
             # Получаем reservation_time из validated_data
             reservation_time = ser.validated_data['reservation_time']
             # Сделаем datetime aware, если он naive
