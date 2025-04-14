@@ -2,7 +2,7 @@ FROM python:3.12
 
 WORKDIR /app
 
-RUN pip install --upgrade pip==23.3.1 setuptools wheel
+RUN pip install --upgrade pip==23.3.1 setuptools wheel pytest pytest-django
 
 COPY requirements.txt .
 RUN pip install -r requirements.txt
